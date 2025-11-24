@@ -1,0 +1,286 @@
+/* ===========================
+   JOURNEY PAGE (unified)
+   =========================== */
+
+/* wrapper uses global background */
+.journey-page {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 5.5rem;
+}
+
+/* header */
+.journey-header {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  padding: 0 1.25rem;
+  background: transparent;
+}
+
+.journey-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  background: linear-gradient(90deg, #0f766e, #2563eb, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.journey-subtitle {
+  max-width: 720px;
+  margin: 0.6rem auto 0;
+  font-size: 1.02rem;
+  opacity: 0.85;
+}
+
+/* timeline container */
+.journey-timeline {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  background: transparent;
+}
+
+/* animated vertical/curved line (SVG from the component) */
+.timeline-svg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 2600px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timeline-svg path {
+  filter: drop-shadow(0 0 18px rgba(59, 130, 246, 0.4));
+  animation: journeyLinePulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes journeyLinePulse {
+  0% { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.35)); }
+  100% { filter: drop-shadow(0 0 26px rgba(59, 130, 246, 0.6)); }
+}
+
+/* timeline item (desktop) */
+.timeline-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 6rem 0;
+  z-index: 2;
+}
+
+/* left/right layout for desktop */
+.timeline-item.left .timeline-card {
+  margin-right: 55%;
+  text-align: right;
+}
+
+.timeline-item.right .timeline-card {
+  margin-left: 55%;
+  text-align: left;
+}
+
+/* number circle on the line */
+.timeline-circle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 0 22px rgba(15, 23, 42, 0.15);
+  z-index: 3;
+}
+
+/* card styling – use universal surfaces */
+.timeline-card {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  max-width: 460px;
+  padding: 1.8rem 1.6rem;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.06);
+}
+
+/* card content */
+.timeline-year {
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 1.02rem;
+  margin-bottom: 0.4rem;
+}
+
+.timeline-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+
+.timeline-text {
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+.timeline-img {
+  margin-top: 1rem;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* dark mode for cards */
+html[data-theme='dark'] .journey-page {
+  background: var(--bg-primary);
+}
+
+html[data-theme='dark'] .timeline-card {
+  background: rgba(22, 32, 51, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  color: var(--text-primary);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================
+   MOBILE / TABLET
+   ========================= */
+@media (max-width: 768px) {
+  .journey-page {
+    padding-inline: 0.75rem;
+  }
+
+  .journey-timeline {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* line becomes straight and thin */
+  .timeline-svg {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 4px !important;
+    height: 100% !important;
+  }
+
+  .timeline-svg path {
+    stroke-width: 6px !important;
+  }
+
+  /* items stack */
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    margin: 3.5rem 0 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* circle centered */
+  .timeline-circle {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 42px;
+    height: 42px;
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* small connector under circle (for mobile only) */
+  .timeline-connector {
+    width: 2.5px;
+    height: 26px;
+    background: linear-gradient(180deg, #0f766e, #2563eb, #8b5cf6);
+    border-radius: 9999px;
+    margin-bottom: 0.9rem;
+  }
+
+  /* card full-width-ish and centered */
+  .timeline-card {
+    width: min(90vw, 420px);
+    margin: 0 auto 3.5rem !important;
+    text-align: center;
+    padding: 1.35rem 1.1rem;
+  }
+
+  /* remove desktop offset */
+  .timeline-item.left .timeline-card,
+  .timeline-item.right .timeline-card {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* big screens */
+@media (min-width: 1280px) {
+  .journey-timeline {
+    max-width: 1180px;
+  }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-svg path {
+    animation: none;
+  }
+}
+
+
+/* === JOURNEY MOBILE TIGHTEN === */
+@media (max-width: 768px) {
+  /* stack items but with smaller spacing */
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    margin: 2.1rem 0 0;            /* 👈 was 3.5rem */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* center the circle but keep it close to the card */
+  .timeline-circle {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin-bottom: 0.4rem;          /* 👈 was 0.9rem */
+    width: 40px;
+    height: 40px;
+  }
+
+  /* card: full-width-ish, not too much bottom gap */
+  .timeline-card {
+    width: min(100%, 25rem);        /* 25rem ≈ 400px, change if you want wider */
+    margin: 0 auto 1.6rem !important; /* 👈 was 3.5rem */
+    text-align: left;               /* looks better on mobile than center */
+    padding: 1.1rem 1rem 1.05rem;
+  }
+
+  /* text inside card: reduce space so content doesn't look airy */
+  .timeline-desc {
+    line-height: 1.45;
+  }
+
+  /* optional: hide the big SVG path on mobile if it feels off */
+  .timeline-svg {
+    display: none;
+  }
+}
