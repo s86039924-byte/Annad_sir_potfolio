@@ -5,125 +5,134 @@ import { TickerText } from './TickerText';
 import { driveProxy } from '@/lib/drive';
 
 type ResultCard = {
-  exam: string;   // e.g. "JEE Advanced 2025"
-  name: string;   // e.g. "Advay Mayank"
-  label: string;  // e.g. "All India Rank" or "Score"
-  value: string;  // e.g. "36" or "700/720"
-  img: string;    // Drive link (…/file/d/<ID>/view) or any image URL
+  exam: string;   // e.g. "JEE Main 2025"
+  name: string;   // e.g. "Prakhar Aggarwal"
+  label: string;  // e.g. "Percentile" or "All India Rank"
+  value: string;  // e.g. "99.85" or "AIR 22"
+  img: string;    // Google Drive link or any image URL
 };
 
 export default function HeroSection() {
-  // === EDIT THIS ARRAY WITH YOUR REAL DATA ===
-  const resultCards: ResultCard[] = [
-    {
-      exam: 'JEE Advanced 2025',
-      name: 'Shrestha Agarwal',
-      label: 'All India Rank',
-      value: '140',
-      img: 'https://drive.google.com/file/d/1-fVIXSXq--qqdRFrn-oO0oZjvCeB2eVm/view?usp=sharing',
-    },
-    {
-      exam: 'JEE Advanced 2025',
-      name: 'Venkateshwar Gupta',
-      label: 'ISI Rank',
-      value: '17',
-      img: 'https://drive.google.com/file/d/1-fVIXSXq--qqdRFrn-oO0oZjvCeB2eVm/view',
-    },
-    {
-      exam: 'JEE Advanced 2025',
-      name: 'Bipul Kumar',
-      label: 'ALL INDIAN  RANK ',
-      value: '140',
-      img: 'https://drive.google.com/file/d/1FDWT5TUVlX_fvSjrKVThvoOwG4eIxwTH/view?usp=sharing',
-    },
-    {
-      exam: 'JEE Advanced 2025',
-      name: 'Aman Sharma',
-      label: 'All India Rank',
-      value: '751',
-      img: 'https://drive.google.com/file/d/1Ej-KvgLdrMTKO-srY4uMJ-7ze1z3C3o6/view?usp=sharing',
-    },
+  /**
+   * TODO: Replace the `img` values below with your real Google Drive links
+   * for topper photos or result posters. You can add or remove cards freely.
+   */
+  const cards: ResultCard[] = useMemo(
+    () => [
       {
-      exam: 'JEE Advanced 2025',
-      name: 'Bhargav Shekokar',
-      label: 'All India Rank',
-      value: '2239',
-      img: 'https://drive.google.com/file/d/1MUzeCjYkDeeefbJrUF1SpQE6eRR6DW2W/view?usp=sharing',
-    },
-  ];
-
-  // Duplicate for seamless infinite scroll
-  const railItems = useMemo(() => [...resultCards, ...resultCards], [resultCards]);
-
-  // Reserve image box to prevent layout shift
-  const CARD_IMG_W = 180, CARD_IMG_H = 160;
+        exam: 'JEE Advanced 2024',
+        name: 'Aman Sharma',
+        label: 'All India Rank',
+        value: 'AIR 751',
+        img: 'https://drive.google.com/file/d/14Kmu7yT7SrCsh-_T4gjVSBqep_InwOw3/view?usp=sharing',
+      },
+      {
+        exam: 'JEE Advanced 2024',
+        name: 'Bhavush',
+        label: 'All India Rank',
+        value: 'AIR 73',
+        img: 'https://drive.google.com/file/d/1UBfSoatcfYRoMQaXgo51eNrLaVukR-A5/view?usp=sharing',
+      },
+      {
+        exam: 'JEE Advanced 2024',
+        name: 'Bipul Kumar',
+        label: 'All India Rank',
+        value: 'AIR 100',
+        img: 'https://drive.google.com/file/d/1SJDHT9Xv-EvV3ONhIT_N0KgG7QiZ3hKb/view?usp=sharing',
+      },
+      {
+        exam: 'JEE Advanced 2024',
+        name: 'Shreshtha Agrawal',
+        label: 'All India Rank',
+        value: 'AIR 140',
+        img: 'https://drive.google.com/file/d/1w8pS86jbXivmX20jHDtZ8_QVRDlm43iv/view?usp=sharing',
+      },
+      {
+        exam: 'ISI Entrance 2024',
+        name: 'Venkatesh Gupta',
+        label: 'Rank',
+        value: 'ISI AIR 17',
+        img: 'https://drive.google.com/file/d/1hh6HK0Pt--_lzuOg2D-2RM4bWrViHCw1/view?usp=sharing',
+      },
+    ],
+    []
+  );
 
   return (
-    <section id="home" className="rw-hero section">
-      <div className="hero-backdrop" aria-hidden="true" />
-      <div className="rw-hero__inner container">
-        <div className="rw-hero__left">
-          <div className="hero__eyebrow">Founded by IIT-JEE & NEET Experts</div>
+    <section
+      id="home"
+      className="section hero-section rw-hero"
+      aria-labelledby="hero-heading"
+    >
+      <div className="container hero-content">
+        {/* LEFT: Institute positioning */}
+        <div className="rw-hero__left hero-copy">
 
-          <h1 className="rw-hero__title">
-            <TickerText />
+          <h1 id="hero-heading" className="hero-title">
+            <span className="hero-title__brand">Re-Wise</span>{' '}
+            <span className="hero-title__ticker">
+              <TickerText />
+            </span>
           </h1>
 
-          <p className="hero-lead">
-            IIT-JEE &amp; NEET mentors + AI-powered practice. Structured tests, instant solutions, and
-            metrics that actually improve your score.
+          <p className="hero-subtitle">
+            Er. Anand Tiwari (Maths) and Dr. Vivek Pratap Singh (Biology) unite a decade
+            of ALLEN &amp; national coaching experience with AI practice labs, pan-India
+            tests, and always-on YouTube support to power Classes 9–13 for Boards,
+            JEE, and NEET.
           </p>
 
-          <ul className="hero__chips">
-            <li><strong>10+</strong> Years Teaching</li>
-            <li><strong>AIR &lt; 100</strong> Achievers</li>
-            <li><strong>ALLEN</strong> Institute Alumni</li>
-          </ul>
-
-          <div className="hero__ctas" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }} />
+          <div className="hero-pill-row">
+            <div className="hero-pill">
+              <span className="hero-pill__dot" /> National mentoring across ALLEN &amp;
+              top institutes
+            </div>
+            <div className="hero-pill">
+              <span className="hero-pill__dot" /> AI question lab + All India test
+              series
+            </div>
+            <div className="hero-pill">
+              <span className="hero-pill__dot" /> Re-Wise, Foundation &amp; Be-Wise
+              channels
+            </div>
+          </div>
         </div>
 
-        {/* Right: auto-scrolling result cards */}
-        <aside className="rw-hero__right" aria-label="Recent Results">
-          <div className="rw-rail" role="list">
-            <div className="rw-rail__track">
-              {railItems.map((c, i) => (
-                <article
-                  className="result-card result-card--result rw-rail__item"
-                  key={`${c.name}-${i}`}
-                  role="listitem"
-                >
-                  <div className="result-card__tag">{c.exam}</div>
+        {/* RIGHT: Toppers rail */}
+        <aside className="rw-hero__right" aria-label="Top results from Re-Wise">
+          <div className="rw-rail">
+            <div className="rw-rail__viewport">
+              <div className="rw-rail__track">
+                {cards.map((c, idx) => (
+                  <article
+                    key={`${c.exam}-${c.name}-${idx}`}
+                    className="result-card result-card--result rw-rail__item"
+                  >
+                    <header className="result-card__header">
+                      <div className="result-card__tag">{c.exam}</div>
+                    </header>
 
-                  <div className="result-card__body">
-                    <div className="result-card__left">
-                      <div className="result-card__name">{c.name}</div>
-                      <div className="result-card__meta">{c.label}</div>
-                      <div className="result-card__rank">{c.value}</div>
-                    </div>
+                    <div className="result-card__body">
+                      <div className="result-card__left">
+                        <div className="result-card__name">{c.name}</div>
+                        <div className="result-card__meta">{c.label}</div>
+                        <div className="result-card__rank">{c.value}</div>
+                      </div>
 
-                    <div className="result-card__img-wrap" aria-hidden="true">
-                      <img
-                        src={driveProxy(c.img)}
-                        alt={c.name}
-                        className="result-card__media"
-                        width={CARD_IMG_W}
-                        height={CARD_IMG_H}
-                        decoding="async"
-                        loading="eager"
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          // Fallback to Drive thumbnail if direct view is blocked
-                          const el = e.currentTarget as HTMLImageElement;
-                          const m = el.src.match(/[?&]id=([A-Za-z0-9_-]{10,})/);
-                          if (m) el.src = `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200`;
-                        }}
-                        style={{ objectFit: 'contain', background: '#fff', borderRadius: 8 }}
-                      />
+                      <div className="result-card__img-wrap" aria-hidden="true">
+                        <img
+                          src={driveProxy(c.img)}
+                          alt={c.name}
+                          className="result-card__media"
+                          loading={idx < 2 ? 'eager' : 'lazy'}
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </aside>

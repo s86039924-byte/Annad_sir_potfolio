@@ -3,11 +3,14 @@ export type Exam = 'JEE' | 'NEET' | 'Foundation' | 'Olympiads';
 export type Subject = 'Physics' | 'Chemistry' | 'Mathematics' | 'Biology' | 'General';
 export type MediaKind = 'video' | 'image' | 'text';
 
+export type JeeTier = 'mains' | 'advanced';
+
 export type Testimonial = {
   id: string;
   name: string;
   short: string;                 // "AIR 16" | "JEE Main 99.87%ile"
   exam: Exam;
+  jeeTier?: JeeTier;             // lets us split JEE Main vs Advanced
   subject: Subject;
   year: number;
   kind: MediaKind;
@@ -54,6 +57,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       subject: 'Mathematics',
       year: 2024,
       kind: 'text',
+      jeeTier: 'advanced',
       text: 'The structured guidance and exam-like practice helped improve speed and accuracy dramatically.',
       stars: 5,
     },
@@ -62,6 +66,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       name: 'Anshul',
       short: 'JEE Topper',
       exam: 'JEE',
+      jeeTier: 'mains',
       subject: 'Physics',
       year: 2024,
       kind: 'text',
@@ -84,6 +89,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       name: 'Raghav Jain',
       short: 'JEE Main 99.87%ile',
       exam: 'JEE',
+      jeeTier: 'mains',
       subject: 'Mathematics',
       year: 2023,
       kind: 'image',
@@ -92,4 +98,3 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     },
   ];
 }
-

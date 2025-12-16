@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState, useRef } from 'react';
-import { exams, subjects, mediaKinds, type Exam, type Subject, type MediaKind, type Testimonial } from '@/lib/testimonials';
+import { exams, subjects, mediaKinds, type Exam, type Subject, type MediaKind, type Testimonial, type JeeTier } from '@/lib/testimonials';
 import localStore, { genId, dbPut } from '@/lib/localStore';
 import { classifyUrl, getYouTubeId, drivePreviewUrl, driveImageUrl, driveThumbnailUrl } from '@/lib/embed';
 
@@ -17,6 +17,7 @@ export default function AddTestimonialForm({
   const [short, setShort] = useState('');
   const [exam, setExam] = useState<Exam>('JEE');
   const [subject, setSubject] = useState<Subject>('General');
+  const [jeeTier, setJeeTier] = useState<JeeTier>('mains');
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [program, setProgram] = useState('');
   const [badgeLabel, setBadgeLabel] = useState('All India Rank');
@@ -59,7 +60,7 @@ export default function AddTestimonialForm({
   }
 
   function reset() {
-    setKind('image'); setName(''); setShort(''); setExam('JEE'); setSubject('General');
+    setKind('image'); setName(''); setShort(''); setExam('JEE'); setSubject('General'); setJeeTier('mains');
     setYear(new Date().getFullYear()); setProgram(''); setBadgeValue('');
     setText(''); setStars(5); setVideoUrl(''); setImageUrl(''); setImagePreview(undefined);
     setThumbPreview(undefined); setImageFile(null); setVideoFile(null);
@@ -76,6 +77,7 @@ export default function AddTestimonialForm({
     const base: Testimonial = {
       id, name: name.trim(), short: short.trim(),
       exam, subject, year, kind, program: program.trim() || undefined, stars,
+      jeeTier: exam === 'JEE' ? jeeTier : undefined,
       badge: badgeValue ? { label: badgeLabel || undefined, value: badgeValue } : undefined,
     };
 
@@ -163,6 +165,15 @@ export default function AddTestimonialForm({
           {exams.map(x => <option key={x} value={x}>{x}</option>)}
         </select>
       </div>
+      {exam === 'JEE' && (
+        <div className="col-3">
+          <label>JEE Result Type</label>
+          <select value={jeeTier} onChange={e => setJeeTier(e.target.value as JeeTier)}>
+            <option value="mains">JEE Main Result</option>
+            <option value="advanced">JEE Advanced Result</option>
+          </select>
+        </div>
+      )}
       <div className="col-3">
         <label>Subject</label>
         <select value={subject} onChange={e => setSubject(e.target.value as Subject)}>
@@ -235,7 +246,6 @@ export default function AddTestimonialForm({
     </form>
   );
 }
-
 
 
 

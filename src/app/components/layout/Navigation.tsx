@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { LOGO } from '@/lib/constants'
 
-// Use public/logo/logo.png
-const LOGO_SRC = '/logo/logo.png'
+const LOGO_SRC = LOGO
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -27,13 +27,12 @@ export default function Navigation() {
 
   const items = [
     { label: 'Home', href: '/' },
-    { label: 'Founders', href: '/#founders' },
-    { label: 'Platform', href: '/#platform' },
-    { label: 'Channels', href: '/#channels' },
-    { label: 'Journey', href: '/journey' },
+    { label: 'Why Re-Wise', href: '/#why-iitsf' },
+    { label: 'Our Faculty', href: '/#faculty' },
+    { label: 'Courses', href: '/courses' },
     { label: 'Testimonials', href: '/testimonials' },
     { label: 'Gallery', href: '/#gallery' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Contact', href: '/contact' },
   ]
 
   useEffect(() => {
@@ -54,7 +53,7 @@ export default function Navigation() {
               src={LOGO_SRC}
               alt="Re-Wise"
               width={140}
-              height={36}
+              height={140}
               priority
               className="brand-logo"
             />

@@ -1,231 +1,160 @@
-'use client'
-import { useEffect, useRef } from 'react'
+'use client';
 
-const ANAND_IMG = 'https://drive.google.com/your-anand-link-here'
-const VIVEK_IMG = 'https://drive.google.com/your-vivek-link-here'
+import React, { useEffect, useRef } from 'react';
 
 function useCountUp() {
-  const started = useRef(false)
+  const started = useRef(false);
+
   useEffect(() => {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-count]'))
-    if (!('IntersectionObserver' in window) || targets.length === 0) return
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-count]')
+    );
+    if (!('IntersectionObserver' in window) || targets.length === 0) return;
+
     const io = new IntersectionObserver(
       (entries) => {
-        if (started.current) return
+        if (started.current) return;
         if (entries.some((e) => e.isIntersecting)) {
-          started.current = true
+          started.current = true;
+
           targets.forEach((el) => {
-            const end = Number(el.dataset.count || 0)
-            let t0: number | undefined
-            function step(ts: number) {
-              if (t0 === undefined) t0 = ts
-              const p = Math.min((ts - t0) / 900, 1)
-              const eased = 1 - Math.pow(1 - p, 3)
-              el.textContent = String(Math.floor(end * eased))
-              if (p < 1) requestAnimationFrame(step)
-            }
-            requestAnimationFrame(step)
-          })
+            const target = Number(el.dataset.count || '0');
+            const duration = 900;
+            const start = performance.now();
+
+            const step = (now: number) => {
+              const progress = Math.min((now - start) / duration, 1);
+              const value = Math.floor(target * progress);
+              el.textContent = value.toString();
+              if (progress < 1) requestAnimationFrame(step);
+            };
+
+            requestAnimationFrame(step);
+          });
+
+          io.disconnect();
         }
       },
-      { threshold: 0.35 },
-    )
-    targets.forEach((el) => io.observe(el))
-    return () => io.disconnect()
-  }, [])
-}
+      { threshold: 0.25 }
+    );
 
-function GlowTiltCard({
-  children,
-  accent,
-}: {
-  children: React.ReactNode
-  accent: string
-}) {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    const x = ((e.clientX - r.left) / r.width) * 100
-    const y = ((e.clientY - r.top) / r.height) * 100
-    el.style.setProperty('--mx', `${x}%`)
-    el.style.setProperty('--my', `${y}%`)
-    const rx = ((e.clientY - r.top) / r.height - 0.5) * -6
-    const ry = ((e.clientX - r.left) / r.width - 0.5) * 6
-    el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`
-  }
-  const onLeave = () => {
-    const el = ref.current
-    if (!el) return
-    el.style.removeProperty('--mx')
-    el.style.removeProperty('--my')
-    el.style.transform = 'rotateX(0) rotateY(0)'
-  }
-  return (
-    <article
-      ref={ref}
-      className="card founder-card f-card"
-      style={{ ['--accent' as any]: accent }}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-    >
-      <div className="f-card__accent" />
-      {children}
-    </article>
-  )
+    targets.forEach((el) => io.observe(el));
+
+    return () => io.disconnect();
+  }, []);
 }
 
 export default function FoundersSection() {
-  useCountUp()
+  useCountUp();
+
   return (
-    <section id="founders" className="founders">
+    <section id="founders" className="founders section">
       <div className="container">
-        {/* Header band */}
-        <div className="section-title f-head">
-          <div className="title-text">Founders</div>
+        {/* Faculty cards */}
+        <div id="faculty" className="section-title f-head f-head--sub">
+          <div className="title-text">Core Faculty Team</div>
           <div className="title-underline" />
-          <p className="f-sub">IIT-JEE &amp; NEET mentors with 10+ years — ALLEN alumni</p>
+          <p className="f-sub">
+            Subject experts who mentor Re-Wise students every day.
+          </p>
         </div>
 
-        {/* Stats row */}
         <div className="f-stats">
           <div className="f-stat">
             <div className="f-stat__value">
-              <span className="f-stat__num" data-count={10}></span>
+              <span className="f-stat__num" data-count={5}></span>
               <span className="f-stat__plus">+</span>
             </div>
-            <div className="f-stat__label">Years Teaching</div>
+            <div className="f-stat__label">Years of Excellence</div>
           </div>
+
           <div className="f-stat">
             <div className="f-stat__value">
-              <span className="f-stat__num" data-count={1}></span>
+              <span className="f-stat__num" data-count={50}></span>
               <span className="f-stat__plus">+</span>
             </div>
-            <div className="f-stat__label">AIR &lt; 100 Achievers</div>
+            <div className="f-stat__label">AIR &lt; 100 &amp; 99+ %ilers</div>
           </div>
+
           <div className="f-stat">
             <div className="f-stat__value">
-              <span className="f-stat__num" data-count={6}></span>
+              <span className="f-stat__num" data-count={2000}></span>
               <span className="f-stat__plus">+</span>
             </div>
-            <div className="f-stat__label">Cities Taught</div>
-          </div>
-          <div className="f-stat">
-            <div className="f-stat__value">
-              <span className="f-stat__num" data-count={1000}></span>
-              <span className="f-stat__plus">+</span>
-            </div>
-            <div className="f-stat__label">Students Mentored</div>
+            <div className="f-stat__label">Successful Selections</div>
           </div>
         </div>
 
-        <div className="founders-grid">
-          {/* Founder 1 */}
-          <GlowTiltCard accent="#16b3c4">
-            <div className="founder-avatar">
-              {ANAND_IMG ? (
-                <img src={ANAND_IMG} alt="Anand Tiwari" className="founder-photo" />
-              ) : (
-                <div className="avatar-placeholder">AT</div>
-              )}
-              <div className="avatar-glow" />
+        <div className="faculty-grid">
+          {/* Anand Tiwari */}
+          <article className="faculty-card">
+            <div className="faculty-card__photo-wrap">
+              <img
+                src="/images/founders/anand.jpg"
+                alt="Er. Anand Tiwari – Mathematics Mentor"
+                className="faculty-card__photo"
+                loading="lazy"
+              />
             </div>
-            <div className="founder-info">
-              <h3 className="founder-name">Anand Tiwari</h3>
-              <p className="founder-title">Co-Founder &amp; Mathematics Mentor</p>
-              <p className="founder-education">B.Tech (2015)</p>
+            <div className="faculty-card__body">
+              <h3 className="faculty-card__name">Er. Anand Tiwari</h3>
+              <p className="faculty-card__role">
+                Co-Founder &amp; Mathematics Mentor
+              </p>
+              <p>
+                B.Tech (2015) engineer who chose classrooms over corporate roles.
+                After a decade of mentoring at national institutes and ALLEN Mumbai,
+                he remains obsessed with making mathematics feel achievable for every learner.
+              </p>
+              <ul className="faculty-card__highlights">
+                <li>
+                  Taught across India from 2015–2025, guiding thousands of IIT-JEE aspirants.
+                </li>
+                <li>
+                  Helped produce AIR &lt; 100 and multiple AIR &lt; 1000 ranks while at ALLEN Mumbai (2022–24).
+                </li>
+                <li>
+                  Co-leads Re-Wise&rsquo;s AI practice lab, national test series, and 24&times;7 YouTube support so math fear becomes math fun.
+                </li>
+              </ul>
             </div>
+          </article>
 
-            <div className="founder-achievement">
-              <strong>Venkatesh Gupta</strong> - ISI AIR 17
+          {/* Dr. Vivek Pratap Singh */}
+          <article className="faculty-card">
+            <div className="faculty-card__photo-wrap">
+              <img
+                src="/images/founders/vivek.jpg"
+                alt="Dr. Vivek Pratap Singh – Biology Mentor"
+                className="faculty-card__photo"
+                loading="lazy"
+              />
             </div>
-
-            <div className="founder-timeline f-timeline">
-              <h4>Highlights</h4>
-              <div className="timeline-item f-tl-item">
-                <div className="timeline-year f-year">2015</div>
-                <div className="timeline-desc f-text">B.Tech graduate</div>
-              </div>
-              <div className="timeline-item f-tl-item">
-                <div className="timeline-year f-year">2017–2025</div>
-                <div className="timeline-desc f-text">National-level institutes across cities</div>
-              </div>
-              <div className="timeline-item f-tl-item">
-                <div className="timeline-year f-year">2022–2024</div>
-                <div className="timeline-desc f-text">ALLEN Career Institute, Mumbai</div>
-              </div>
+            <div className="faculty-card__body">
+              <h3 className="faculty-card__name">Dr. Vivek Pratap Singh</h3>
+              <p className="faculty-card__role">
+                Co-Founder &amp; Biology Mentor
+              </p>
+              <p>
+                BDS (Govt. Dental College Raipur, 2018) graduate and frontline COVID volunteer
+                who found his calling in empowering NEET &amp; board aspirants with empathy and scientific rigor.
+              </p>
+              <ul className="faculty-card__highlights">
+                <li>
+                  Teaching biology since 2017 with a counselling-first approach that keeps students calm and consistent.
+                </li>
+                <li>
+                  Partnered with Anand at ALLEN Mumbai (2022–24) to deliver elite NEET outcomes.
+                </li>
+                <li>
+                  Champions Re-Wise&rsquo;s Re-Wise, Re-Wise Foundation, and Be-Wise channels to merge academics, mindset, and life skills.
+                </li>
+              </ul>
             </div>
-
-            <blockquote className="founder-quote">
-              With the right structure and guidance, every student can conquer mathematics.
-            </blockquote>
-          </GlowTiltCard>
-
-          {/* Founder 2 */}
-          <GlowTiltCard accent="#ff7a59">
-            <div className="founder-avatar">
-              {VIVEK_IMG ? (
-                <img src={VIVEK_IMG} alt="Dr. Vivek Pratap Singh" className="founder-photo" />
-              ) : (
-                <div className="avatar-placeholder">VP</div>
-              )}
-              <div className="avatar-glow" />
-            </div>
-            <div className="founder-info">
-              <h3 className="founder-name">Dr. Vivek Pratap Singh</h3>
-              <p className="founder-title">Co-Founder &amp; Biology Mentor</p>
-              <p className="founder-education">BDS, Govt Dental College, Raipur (2018)</p>
-            </div>
-
-            <div className="founder-timeline f-timeline">
-              <h4>Highlights</h4>
-              <div className="timeline-item f-tl-item">
-                <div className="timeline-year f-year">2018</div>
-                <div className="timeline-desc f-text">Graduated in Dentistry</div>
-              </div>
-              <div className="timeline-item f-tl-item">
-                <div className="timeline-year f-year">2020</div>
-                <div className="timeline-desc f-text">Dedicated to holistic mentoring</div>
-              </div>
-              <div className="timeline-item f-tl-item">
-                <div className="timeline-year f-year">2022–2024</div>
-                <div className="timeline-desc f-text">ALLEN Career Institute, Mumbai</div>
-              </div>
-            </div>
-
-            <blockquote className="founder-quote">
-              Through education, it’s possible to contribute more to society than by practicing dentistry alone.
-            </blockquote>
-          </GlowTiltCard>
+          </article>
         </div>
 
-        {/* CTA band */}
-        <div className="fs-cta">
-          <h3 className="fs-cta-title">Want guidance from the founders?</h3>
-          <p className="fs-cta-sub">
-            Book a quick discovery call — we’ll help you choose the right path for JEE/NEET.
-          </p>
-          <div className="fs-cta-actions">
-            <a
-              className="btn btn-primary"
-              href="https://forms.gle/Z6ckdqajNSVgFsUw6"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Book a Call
-            </a>
-            <a
-              className="btn btn-ghost"
-              href="https://wa.me/919999999999?text=Hi%20I%27d%20like%20to%20talk%20to%20the%20founders"
-              target="_blank"
-              rel="noreferrer"
-            >
-              WhatsApp Us
-            </a>
-          </div>
-        </div>
       </div>
     </section>
-  )
+  );
 }

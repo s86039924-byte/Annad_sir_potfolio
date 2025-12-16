@@ -1,3 +1,2 @@
-// The path to the logo in the `public` directory.
-// It's a string, so we don't need to import it.
-export const LOGO = '/logos/coaching-logo.png';
+// Path to the Re-Wise logo sitting inside /public/logo.
+export const LOGO = '/logo/Re_wise_logo.png';

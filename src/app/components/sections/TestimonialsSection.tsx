@@ -1,69 +1,113 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
+import { getTestimonials, type Testimonial } from '@/lib/testimonials'
+import { driveProxy } from '@/lib/drive'
+import localStore from '@/lib/localStore'
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0]?.toUpperCase())
+    .join('')
+}
+
 export default function TestimonialsSection() {
+  const [base, setBase] = useState<Testimonial[]>([])
+  const [stored, setStored] = useState<Testimonial[]>([])
+
+  useEffect(() => {
+    let alive = true
+    getTestimonials()
+      .then(data => {
+        if (alive) setBase(Array.isArray(data) ? data : [])
+      })
+      .catch(() => alive && setBase([]))
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  useEffect(() => {
+    const update = () => setStored(localStore.loadAll())
+    update()
+    const handler = () => update()
+    window.addEventListener('storage', handler)
+    window.addEventListener(localStore.changeEvent, handler)
+    return () => {
+      window.removeEventListener('storage', handler)
+      window.removeEventListener(localStore.changeEvent, handler)
+    }
+  }, [])
+
+  const testimonials = useMemo(() => {
+    const merged = [...stored, ...base]
+    return merged.filter(t => t.kind === 'text' && t.text?.trim())
+  }, [stored, base])
+
   return (
-    <section id="testimonials" className="testimonials">
+    <section id="testimonials" className="testimonials dark">
       <div className="container">
         <div className="section-title">
           <div className="title-text">Testimonials</div>
           <div className="title-underline" />
         </div>
 
-        <div className="testimonials-carousel">
-          <div className="testimonials-container">
-            <article className="card testimonial-card">
-              <div className="testimonial-header">
-                <div className="testimonial-avatar">VG</div>
-                <div className="testimonial-info">
-                  <div className="testimonial-name">Venkatesh Gupta</div>
-                  <div className="testimonial-achievement">ISI AIR 17</div>
-                  <div className="testimonial-course">Mathematics</div>
-                </div>
-                <div className="testimonial-stars">
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                </div>
-              </div>
-              <p className="testimonial-text">
-                The structured guidance and exam-like practice helped improve speed and accuracy dramatically.
-              </p>
-            </article>
-
-            <article className="card testimonial-card">
-              <div className="testimonial-header">
-                <div className="testimonial-avatar">AS</div>
-                <div className="testimonial-info">
-                  <div className="testimonial-name">Anshul</div>
-                  <div className="testimonial-achievement">JEE Topper</div>
-                  <div className="testimonial-course">Physics</div>
-                </div>
-                <div className="testimonial-stars">
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                  <span className="star active">★</span>
-                </div>
-              </div>
-              <p className="testimonial-text">
-                Concept clarity with practice analytics made revisions targeted and effective.
-              </p>
-            </article>
-          </div>
-
-          <div className="testimonials-nav">
-            <button className="testimonials-arrow">{'<'}</button>
-            <div className="testimonials-dots">
-              <div className="testimonial-dot active" />
-              <div className="testimonial-dot" />
-              <div className="testimonial-dot" />
+        {testimonials.length === 0 ? (
+          <p className="t-empty">More testimonials coming soon.</p>
+        ) : (
+          <div className="testimonials-marquee">
+            <div
+              className="testimonials-track"
+              style={{ animationDuration: `${Math.max(testimonials.length * 6, 24)}s` }}
+            >
+              {[...testimonials, ...testimonials].map((t, idx) => (
+                <article
+                  key={`${t.id}-${idx}`}
+                  className="testimonial-card"
+                  aria-hidden={idx >= testimonials.length}
+                >
+                  <div className="testimonial-top">
+                    <div className="testimonial-identity">
+                    <div className={`testimonial-avatar${t.image?.url ? ' testimonial-avatar--photo' : ''}`}>
+                      {t.image?.url ? (
+                        <img
+                          src={driveProxy(t.image.url)}
+                          alt={t.image.alt || t.name}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        initials(t.name)
+                      )}
+                    </div>
+                      <div className="testimonial-info">
+                        <div className="testimonial-name">{t.name}</div>
+                        {t.short ? <div className="testimonial-achievement">{t.short}</div> : null}
+                        {t.subject ? <div className="testimonial-course">{t.subject}</div> : null}
+                      </div>
+                    </div>
+                    {t.stars ? (
+                      <div className="testimonial-stars" aria-label={`${t.stars} star rating`}>
+                        {Array.from({ length: 5 }).map((_, starIdx) => (
+                          <span
+                            key={starIdx}
+                            className={`star ${starIdx < (t.stars || 0) ? 'active' : ''}`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                  <blockquote className="testimonial-quote">{t.text}</blockquote>
+                </article>
+              ))}
             </div>
-            <button className="testimonials-arrow">{'>'}</button>
           </div>
-        </div>
+        )}
       </div>
     </section>
   )

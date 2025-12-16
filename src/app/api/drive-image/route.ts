@@ -20,7 +20,10 @@ export async function GET(req: NextRequest) {
     const arrayBuffer = await res.arrayBuffer()
     return new NextResponse(arrayBuffer, {
       status: 200,
-      headers: { 'Content-Type': contentType },
+      headers: {
+        'Content-Type': contentType,
+        'Cache-Control': 'public, max-age=86400, immutable',
+      },
     })
   } catch (e) {
     return NextResponse.json({ error: 'Unexpected error', detail: `${e}` }, { status: 500 })
