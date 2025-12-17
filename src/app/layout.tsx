@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navigation from './components/layout/Navigation'
@@ -6,32 +5,12 @@ import ScrollProgress from './components/animations/ScrollProgress'
 import ParticlesBackground from './components/animations/ParticlesBackground'
 import ScrollManager from './components/layout/ScrollManager'
 import Script from 'next/script'
-import { cookies } from 'next/headers'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
 })
-
-export const metadata: Metadata = {
-  title: 'Re-Wise — Transforming Education Through Innovation',
-  description:
-    'Re-Wise helps students prepare smarter with an integrated platform of practice, analytics, and community.',
-  openGraph: {
-    type: 'website',
-    title: 'Re-Wise Education Platform',
-    description:
-      'Transform your education journey with expert mentoring and AI-powered tools',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Re-Wise' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Re-Wise - Transforming Education',
-    description: 'Expert JEE & NEET mentoring with AI-powered tools',
-    images: ['/og-image.jpg'],
-  },
-}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // SSR: read theme so server HTML matches client HTML (prevents hydration mismatch)

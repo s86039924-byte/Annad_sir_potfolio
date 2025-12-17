@@ -2,12 +2,14 @@
 export type Exam = 'JEE' | 'NEET' | 'Foundation' | 'Olympiads';
 export type Subject = 'Physics' | 'Chemistry' | 'Mathematics' | 'Biology' | 'General';
 export type MediaKind = 'video' | 'image' | 'text';
+export type JeeTier = 'mains' | 'advanced';
 
 export type Testimonial = {
   id: string;
   name: string;
   short: string;                 // "AIR 16" | "JEE Main 99.87%ile"
   exam: Exam;
+  jeeTier?: JeeTier;             // differentiate JEE Main vs Advanced highlights
   subject: Subject;
   year: number;
   kind: MediaKind;
@@ -54,6 +56,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       name: 'Aman Sharma',
       short: 'AIR 751',
       exam: 'JEE',
+      jeeTier: 'advanced',
       subject: 'Mathematics',
       year: 2024,
       kind: 'text',
@@ -69,6 +72,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       name: 'Bhavush',
       short: 'AIR 73',
       exam: 'JEE',
+      jeeTier: 'advanced',
       subject: 'Physics',
       year: 2024,
       kind: 'text',
@@ -84,6 +88,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       name: 'Bipul Kumar',
       short: 'AIR 100',
       exam: 'JEE',
+      jeeTier: 'advanced',
       subject: 'Chemistry',
       year: 2024,
       kind: 'text',
@@ -99,6 +104,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
       name: 'Shreshtha Agrawal',
       short: 'AIR 140',
       exam: 'JEE',
+      jeeTier: 'advanced',
       subject: 'General',
       year: 2024,
       kind: 'text',
