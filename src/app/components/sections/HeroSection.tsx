@@ -37,7 +37,7 @@ export default function HeroSection() {
         exam: 'JEE Advanced 2025',
         name: 'Bipul Kumar',
         label: 'All India Rank',
-        value: 'AIR 110',
+        value: 'AIR 109',
         img: 'https://drive.google.com/file/d/1SJDHT9Xv-EvV3ONhIT_N0KgG7QiZ3hKb/view?usp=sharing',
       },
       {
@@ -51,7 +51,7 @@ export default function HeroSection() {
         exam: 'ISI Entrance 2025',
         name: 'Venkatesh Gupta',
         label: 'Rank',
-        value: 'ISI AIR 17',
+        value: 'ISI Rank 17',
         img: 'https://drive.google.com/file/d/1hh6HK0Pt--_lzuOg2D-2RM4bWrViHCw1/view?usp=sharing',
       },
     ],
