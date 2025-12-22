@@ -36,9 +36,9 @@ const founders = [
 ];
 
 const platformHighlights = [
-  { icon: '🤖', title: 'AI Practice Lab', text: 'Unlimited questions, instant solutions, detailed analytics.' },
-  { icon: '🧪', title: 'All India Tests', text: 'Real exam simulations with performance breakdowns.' },
-  { icon: '📺', title: 'Always-On Support', text: 'YouTube classes, strategy shorts, and motivation.' },
+  { icon: '🤖', title: 'AI Practice Lab', text: 'Unlimited questions, instant solutions, detailed analytics.', accent: '#22c55e' },
+  { icon: '🧪', title: 'All India Tests', text: 'Real exam simulations with performance breakdowns.', accent: '#0ea5e9' },
+  { icon: '📺', title: 'Always-On Support', text: 'YouTube classes, strategy shorts, and motivation.', accent: '#f59e0b' },
 ];
 
 const channels = [
@@ -107,16 +107,29 @@ export default function WhyIITSFSection() {
 
           <article className="founder-card founder-card--platform founder-card--horizontal">
             <div className="founder-card__eyebrow">About the Platform</div>
-            <p>
-              Re-Wise connects Classes 9–13 with coaching-grade mentoring plus digital scale. Here&apos;s the fast
-              lane:
+            <p className="platform-lede">
+              Coaching-grade mentors + digital pace. Three signals to get you exam-ready:
             </p>
             <div className="platform-highlight-row">
               {platformHighlights.map(item => (
                 <div key={item.title} className="platform-highlight">
-                  <div className="platform-highlight__icon">{item.icon}</div>
-                  <h4>{item.title}</h4>
-                  <p>{item.text}</p>
+                  <div
+                    className="platform-highlight__halo"
+                    style={{ background: `radial-gradient(circle at 30% 30%, ${item.accent}33, transparent 60%)` }}
+                  />
+                  <div
+                    className="platform-highlight__icon"
+                    style={{
+                      background: `linear-gradient(135deg, ${item.accent}, ${item.accent}aa)`,
+                      boxShadow: `0 10px 30px ${item.accent}44`,
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div className="platform-highlight__body">
+                    <div className="platform-highlight__title">{item.title}</div>
+                    <p className="platform-highlight__text">{item.text}</p>
+                  </div>
                 </div>
               ))}
             </div>

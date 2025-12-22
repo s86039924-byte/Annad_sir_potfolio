@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { TickerText } from './TickerText';
 import { driveProxy } from '@/lib/drive';
 
@@ -27,28 +27,28 @@ export default function HeroSection() {
         img: 'https://drive.google.com/file/d/14Kmu7yT7SrCsh-_T4gjVSBqep_InwOw3/view?usp=sharing',
       },
       {
-        exam: 'JEE Advanced 2024',
-        name: 'Bhavush',
+        exam: 'JEE Advanced 2025',
+        name: 'Bhavishya',
         label: 'All India Rank',
         value: 'AIR 73',
         img: 'https://drive.google.com/file/d/1UBfSoatcfYRoMQaXgo51eNrLaVukR-A5/view?usp=sharing',
       },
       {
-        exam: 'JEE Advanced 2024',
+        exam: 'JEE Advanced 2025',
         name: 'Bipul Kumar',
         label: 'All India Rank',
-        value: 'AIR 100',
+        value: 'AIR 110',
         img: 'https://drive.google.com/file/d/1SJDHT9Xv-EvV3ONhIT_N0KgG7QiZ3hKb/view?usp=sharing',
       },
       {
-        exam: 'JEE Advanced 2024',
+        exam: 'JEE Advanced 2025',
         name: 'Shreshtha Agrawal',
         label: 'All India Rank',
         value: 'AIR 140',
         img: 'https://drive.google.com/file/d/1w8pS86jbXivmX20jHDtZ8_QVRDlm43iv/view?usp=sharing',
       },
       {
-        exam: 'ISI Entrance 2024',
+        exam: 'ISI Entrance 2025',
         name: 'Venkatesh Gupta',
         label: 'Rank',
         value: 'ISI AIR 17',
@@ -57,6 +57,29 @@ export default function HeroSection() {
     ],
     []
   );
+  const trackCards = useMemo(() => [...cards, ...cards], [cards]);
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll the rank rail in a simple loop
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || cards.length <= 1) return;
+    let idx = 0;
+    const interval = window.setInterval(() => {
+      const first = viewport.querySelector<HTMLElement>('.rw-rail__item');
+      if (!first) return;
+      const step = first.getBoundingClientRect().width + 16; // 16px gap fallback
+      idx += 1;
+      // allow smooth loop then snap back to start invisibly
+      if (idx >= cards.length) {
+        viewport.scrollTo({ left: 0, behavior: 'auto' });
+        idx = 0;
+        return;
+      }
+      viewport.scrollTo({ left: step * idx, behavior: 'smooth' });
+    }, 2200); // faster cycle
+    return () => window.clearInterval(interval);
+  }, [cards.length]);
 
   return (
     <section
@@ -68,15 +91,25 @@ export default function HeroSection() {
         {/* LEFT: Institute positioning */}
         <div className="rw-hero__left hero-copy">
 
-          <h1 id="hero-heading" className="hero-title">
-            <span className="hero-title__brand">Re-Wise</span>{' '}
+          <h1 id="hero-heading" className="hero-title hero-title--inline">
+            <span className="hero-title__brand">Re-Wise</span>
+            <span className="hero-powered hero-powered--inline">
+              <img
+                src="/logo/acadza_logo_with_Rewise.png"
+                alt="Powered by Acadza"
+                className="hero-powered__logo"
+                loading="lazy"
+                decoding="async"
+              />
+              <span className="hero-powered__text">Powered by Acadza</span>
+            </span>
             <span className="hero-title__ticker">
               <TickerText />
             </span>
           </h1>
 
           <p className="hero-subtitle">
-            Er. Anand Tiwari (Maths) and Dr. Vivek Pratap Singh (Biology) unite a decade
+            Mr. Anand Tiwari (Maths) and Dr. Vivek Pratap Singh (Biology) unite a decade
             of ALLEN &amp; national coaching experience with AI practice labs, pan-India
             tests, and always-on YouTube support to power Classes 9–13 for Boards,
             JEE, and NEET.
@@ -101,9 +134,9 @@ export default function HeroSection() {
         {/* RIGHT: Toppers rail */}
         <aside className="rw-hero__right" aria-label="Top results from Re-Wise">
           <div className="rw-rail">
-            <div className="rw-rail__viewport">
+            <div className="rw-rail__viewport" ref={viewportRef}>
               <div className="rw-rail__track">
-                {cards.map((c, idx) => (
+                {trackCards.map((c, idx) => (
                   <article
                     key={`${c.exam}-${c.name}-${idx}`}
                     className="result-card result-card--result rw-rail__item"

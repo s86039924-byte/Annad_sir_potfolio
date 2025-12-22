@@ -28,7 +28,6 @@ export default function Navigation() {
   const items = [
     { label: 'Home', href: '/' },
     { label: 'Why Re-Wise', href: '/#why-iitsf' },
-    { label: 'Our Faculty', href: '/#faculty' },
     { label: 'Courses', href: '/courses' },
     { label: 'Testimonials', href: '/testimonials' },
     { label: 'Gallery', href: '/#gallery' },

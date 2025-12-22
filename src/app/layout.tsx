@@ -5,6 +5,8 @@ import ScrollProgress from './components/animations/ScrollProgress'
 import ParticlesBackground from './components/animations/ParticlesBackground'
 import ScrollManager from './components/layout/ScrollManager'
 import Script from 'next/script'
+import CoursePromoModal from './components/sections/CoursePromoModal'
+import CourseTopBanner from './components/sections/CourseTopBanner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,7 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollManager />
         <ScrollProgress />
         <ParticlesBackground />
+        <CourseTopBanner />
         <div className="page-grid-overlay" aria-hidden="true" />
+        <CoursePromoModal />
         <Navigation />
         <main className="page">{children}</main>  {/* accounts for fixed nav height */}
       </body>

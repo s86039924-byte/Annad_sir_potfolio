@@ -121,6 +121,9 @@ export default function AddTestimonialForm({
     if (kind === 'text') {
       if (!text.trim()) return alert('Write the testimonial text');
       base.text = text.trim();
+    } else if (text.trim()) {
+      // Allow optional text alongside image/video
+      base.text = text.trim();
     }
 
     const all = localStore.loadAll();
@@ -232,12 +235,14 @@ export default function AddTestimonialForm({
         </>
       )}
 
-      {kind === 'text' && (
-        <div className="col-12">
-          <label>Text</label>
-          <textarea value={text} onChange={e => setText(e.target.value)} placeholder="Student feedback..." />
-        </div>
-      )}
+      <div className="col-12">
+        <label>Text {kind === 'text' ? '(required)' : '(optional)'}</label>
+        <textarea
+          value={text}
+          onChange={e => setText(e.target.value)}
+          placeholder="Student feedback..."
+        />
+      </div>
 
       <div className="atm-actions">
         <button type="button" onClick={onCancel}>Cancel</button>
@@ -246,6 +251,5 @@ export default function AddTestimonialForm({
     </form>
   );
 }
-
 
 
