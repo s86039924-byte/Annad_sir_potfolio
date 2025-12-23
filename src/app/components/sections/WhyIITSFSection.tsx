@@ -3,7 +3,7 @@
 const founders = [
   {
     eyebrow: 'Math Mentor',
-    name: 'Er. Anand Tiwari',
+    name: 'Anand Tiwari',
     punch: '10 yrs | ALLEN Mumbai 2022–24',
     summaryTop:
       'B.Tech (2015) graduate who turned down corporate routes to coach IIT JEE aspirants across India.',
