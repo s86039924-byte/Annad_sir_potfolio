@@ -91,13 +91,13 @@ export default function FoundersSection() {
             <div className="faculty-card__photo-wrap">
               <img
                 src="/images/founders/anand.jpg"
-                alt="Er. Anand Tiwari – Mathematics Mentor"
+                alt="Anand Tiwari – Mathematics Mentor"
                 className="faculty-card__photo"
                 loading="lazy"
               />
             </div>
             <div className="faculty-card__body">
-              <h3 className="faculty-card__name">Er. Anand Tiwari</h3>
+              <h3 className="faculty-card__name">Anand Tiwari</h3>
               <p className="faculty-card__role">
                 Co-Founder &amp; Mathematics Mentor
               </p>
