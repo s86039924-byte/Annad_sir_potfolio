@@ -109,7 +109,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="hero-subtitle">
-            Mr. Anand Tiwari (Maths) and Dr. Vivek Pratap Singh (Biology) unite a decade
+            Anand Tiwari (Maths) and Dr. Vivek Pratap Singh (Biology) unite a decade
             of ALLEN &amp; national coaching experience with AI practice labs, pan-India
             tests, and always-on YouTube support to power Classes 9–13 for Boards,
             JEE, and NEET.
