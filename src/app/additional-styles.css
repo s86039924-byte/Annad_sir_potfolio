@@ -1925,10 +1925,14 @@ html[data-theme='dark'] .hero-powered{
   border-color: rgba(255,255,255,0.1);
 }
 .hero-powered__logo{
-  height: 24px;
+  height: 28px;                /* bump size so padding doesn't shrink it */
   width: auto;
   display: block;
   object-fit: contain;
+  padding: 4px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 .hero-powered__text{
   font-weight: 700;

@@ -33,6 +33,7 @@ export default function Navigation() {
     { label: 'Gallery', href: '/#gallery' },
     { label: 'Contact', href: '/contact' },
   ]
+  const dostLink = { label: 'Dost', href: '/dost' }
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 4)
@@ -71,6 +72,12 @@ export default function Navigation() {
         </nav>
 
         <div className="nav-actions">
+          <Link className="nav-cta" href={dostLink.href} onClick={handleNavClick}>
+            <span className="nav-cta__icon">
+              <Image src="/logo/acadza_logo_with_Rewise.png" alt="" width={32} height={32} />
+            </span>
+            <span>{dostLink.label}</span>
+          </Link>
           <button
             className={`mobile-toggle ${isMobileMenuOpen ? 'open' : ''}`}
             aria-label="Toggle menu"
