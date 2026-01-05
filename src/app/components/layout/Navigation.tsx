@@ -52,8 +52,8 @@ export default function Navigation() {
             <Image
               src={LOGO_SRC}
               alt="Re-Wise"
-              width={140}
-              height={140}
+              width={60}
+              height={60}
               priority
               className="brand-logo"
             />
@@ -73,9 +73,6 @@ export default function Navigation() {
 
         <div className="nav-actions">
           <Link className="nav-cta" href={dostLink.href} onClick={handleNavClick}>
-            <span className="nav-cta__icon">
-              <Image src="/logo/acadza_logo_with_Rewise.png" alt="" width={32} height={32} />
-            </span>
             <span>{dostLink.label}</span>
           </Link>
           <button

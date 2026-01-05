@@ -1652,6 +1652,7 @@ section {
 /* ====== NAVBAR FIX ====== */
 /* Root nav bar container */
 [data-nav].site-nav {
+  --nav-height: 64px;
   position: sticky; /* stays at top when scrolling */
   top: 0;
   inset-inline: 0;
@@ -1683,7 +1684,14 @@ section {
 [data-nav].site-nav .nav-brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+  margin-left: -12px;
+}
+
+.brand-logo {
+  width: clamp(44px, 14vw, 60px);
+  height: auto;
+  max-height: 22px;
 }
 
 /* Right: links row */
@@ -1746,7 +1754,7 @@ section {
     0 8px 18px rgba(10, 28, 63, 0.22);
   text-decoration: none;
   transition: transform 0.12s ease, box-shadow 0.18s ease, background 0.18s ease, filter 0.18s ease;
-  column-gap: 18px;                      /* more space between icon and text */
+  column-gap: 0;
   overflow: hidden;
   animation: navBgFlow 10s ease-in-out infinite;
 }
@@ -1759,6 +1767,39 @@ section {
     0 0 0 1px rgba(93, 208, 255, 0.35) inset,
     0 12px 24px rgba(10, 28, 63, 0.28);
   background-position: 80% 40%;
+}
+
+@media (max-width: 720px) {
+  [data-nav].site-nav {
+    --nav-height: 58px;
+  }
+  [data-nav].site-nav .nav-inner,
+  [data-nav].site-nav .container {
+    padding-right: 8px;
+    gap: 10px;
+    padding-left: 0;
+  }
+  [data-nav].site-nav .nav-brand {
+    margin-left: -34px;
+    gap: 2px;
+  }
+  .brand-logo {
+    width: clamp(20px, 18vw, 54px);
+    max-height: 20px;
+  }
+  [data-nav].site-nav .nav-cta {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    column-gap: 0;
+    min-height: 40px;
+  }
+  .nav-cta__icon {
+    display: none;
+  }
+  [data-nav].site-nav .nav-actions {
+    gap: 6px;
+  }
 }
 
 [data-nav].site-nav .nav-cta::after {
@@ -1963,12 +2004,13 @@ section {
   max-width: none !important;   /* override global container cap */
   width: 100%;
   padding-left: 0 !important;   /* flush left */
-  padding-right: 12px !important;
+  padding-right: 8px !important;
+  margin: 0 !important;
 }
 
 /* Brand sits flush left */
 [data-nav].site-nav .nav-brand {
-  margin-left: -12px !important; /* stronger pull into the corner */
+  margin-left: -18px !important; /* stronger pull into the corner */
   padding-left: 0 !important;
 }
 
@@ -3065,8 +3107,8 @@ html[data-theme='dark'] .rw-hero {
 /* NEW: desktop/laptop – slightly smaller logo */
 .nav-brand img,
 .brand-logo {
-  height: 96px;
-  max-height: 90px;
+  height: 80px;
+  max-height: 60px;
   width: auto;
   object-fit: contain;
 }
@@ -3077,7 +3119,7 @@ html[data-theme='dark'] .rw-hero {
   /* NEW: mobile – make logo bigger and clearer */
   .nav-brand img,
   .brand-logo {
-    height: 80px;
+    height: 60px;
     max-height: 80px;
   }
   /* make the card actually allowed to be small */
